@@ -1,4 +1,6 @@
 base:
+  '*':
+    - hosts
   'controller':
     - chrony.controller
   'compute*':
