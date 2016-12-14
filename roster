@@ -1,0 +1,39 @@
+controller:
+  host: 10.0.0.11
+  user: root
+  priv: /root/.ssh/id_rsa
+
+compute01:
+  host: 10.0.0.31
+  user: root
+  priv: /root/.ssh/id_rsa
+
+compute02:
+  host: 10.0.0.32
+  user: root
+  priv: /root/.ssh/id_rsa
+
+block01:
+  host: 10.0.0.41
+  user: root
+  priv: /root/.ssh/id_rsa
+
+block02:
+  host: 10.0.0.41
+  user: root
+  priv: /root/.ssh/id_rsa
+
+object01:
+  host: 10.0.0.51
+  user: root
+  priv: /root/.ssh/id_rsa
+
+object02:
+  host: 10.0.0.52
+  user: root
+  priv: /root/.ssh/id_rsa
+
+object03:
+  host: 10.0.0.53
+  user: root
+  priv: /root/.ssh/id_rsa
