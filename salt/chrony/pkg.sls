@@ -1,0 +1,2 @@
+chrony:
+  pkg.latest
