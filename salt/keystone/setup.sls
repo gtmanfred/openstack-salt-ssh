@@ -24,7 +24,7 @@ bootstrap:
     - onfail:
       - cmd: check admin setup
 
-service_project:
+project:
   cmd.run:
     - env:
       - OS_USERNAME: admin
@@ -34,11 +34,13 @@ service_project:
       - OS_PROJECT_DOMAIN_NAME: default
       - OS_AUTH_URL: http://controller:35357/v3
       - OS_IDENTITY_API_VERSION: '3'
-    - name: openstack project create --domain default --description "Service Project" service
+    - names:
+      - openstack project create --domain default --description "Service Project" service
+      - openstack project create --domain default --description "Demo Project" demo
     - onfail:
       - cmd: check admin setup
 
-demo_project:
+user:
   cmd.run:
     - env:
       - OS_USERNAME: admin
@@ -48,11 +50,15 @@ demo_project:
       - OS_PROJECT_DOMAIN_NAME: default
       - OS_AUTH_URL: http://controller:35357/v3
       - OS_IDENTITY_API_VERSION: '3'
-    - name: openstack project create --domain default --description "Demo Project" demo
+    - names:
+      - openstack user create --domain default --password demopass demo
+      - openstack user create --domain default --password glancepass glance
+      - openstack user create --domain default --password novapass nova
+      - openstack user create --domain default --password neutronpass neutron
     - onfail:
       - cmd: check admin setup
 
-demo_user:
+role:
   cmd.run:
     - env:
       - OS_USERNAME: admin
@@ -62,7 +68,8 @@ demo_user:
       - OS_PROJECT_DOMAIN_NAME: default
       - OS_AUTH_URL: http://controller:35357/v3
       - OS_IDENTITY_API_VERSION: '3'
-    - name: openstack user create --domain default --password demopass demo
+    - names:
+      - openstack role create user
     - onfail:
       - cmd: check admin setup
 
@@ -76,11 +83,15 @@ user_role:
       - OS_PROJECT_DOMAIN_NAME: default
       - OS_AUTH_URL: http://controller:35357/v3
       - OS_IDENTITY_API_VERSION: '3'
-    - name: openstack role create user
+    - names:
+      - openstack role add --project demo --user demo user
+      - openstack role add --project service --user glance admin
+      - openstack role add --project service --user nova admin
+      - openstack role add --project service --user neutron admin
     - onfail:
       - cmd: check admin setup
 
-demo_user_role:
+service:
   cmd.run:
     - env:
       - OS_USERNAME: admin
@@ -90,7 +101,33 @@ demo_user_role:
       - OS_PROJECT_DOMAIN_NAME: default
       - OS_AUTH_URL: http://controller:35357/v3
       - OS_IDENTITY_API_VERSION: '3'
-    - name: openstack role add --project demo --user demo user
+    - names:
+      - openstack service create --name glance --description "OpenStack Image" image
+      - openstack service create --name nova --description "OpenStack Compute" compute
+      - openstack service create --name neutron --description "OpenStack Networking" network
+    - onfail:
+      - cmd: check admin setup
+
+endpoint:
+  cmd.run:
+    - env:
+      - OS_USERNAME: admin
+      - OS_PASSWORD: adminpass
+      - OS_PROJECT_NAME: admin
+      - OS_USER_DOMAIN_NAME: default
+      - OS_PROJECT_DOMAIN_NAME: default
+      - OS_AUTH_URL: http://controller:35357/v3
+      - OS_IDENTITY_API_VERSION: '3'
+    - names:
+      - openstack endpoint create --region RegionOne image public http://controller:9292
+      - openstack endpoint create --region RegionOne image internal http://controller:9292
+      - openstack endpoint create --region RegionOne image admin http://controller:9292
+      - openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1/%\(tenant_id\)s
+      - openstack endpoint create --region RegionOne compute internal http://controller:8774/v2.1/%\(tenant_id\)s
+      - openstack endpoint create --region RegionOne compute admin http://controller:8774/v2.1/%\(tenant_id\)s
+      - openstack endpoint create --region RegionOne network public http://controller:9696
+      - openstack endpoint create --region RegionOne network internal http://controller:9696
+      - openstack endpoint create --region RegionOne network admin http://controller:9696
     - onfail:
       - cmd: check admin setup
 
