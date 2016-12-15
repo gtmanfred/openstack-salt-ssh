@@ -1,2 +1,3 @@
 mariadb:
-  service.running
+  service.running:
+    - enable: true
