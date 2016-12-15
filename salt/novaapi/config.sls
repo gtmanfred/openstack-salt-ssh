@@ -58,7 +58,7 @@ neutron configs:
       - /etc/neutron/neutron.conf:
         - contents: |
             [database]
-            connection = mysql+pymysql://neutron:NEUTRON_DBPASS@controller/neutron
+            connection = mysql+pymysql://neutron:neutronpass@controller/neutron
 
             [DEFAULT]
             core_plugin = ml2
