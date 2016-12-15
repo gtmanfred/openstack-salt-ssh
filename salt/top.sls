@@ -1,6 +1,7 @@
 base:
   '*':
     - hosts
+    - firewalld
   'controller':
     - chrony.controller
     - openstack.pkgs
