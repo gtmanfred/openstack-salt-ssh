@@ -9,6 +9,14 @@ check admin setup:
       - OS_PROJECT_DOMAIN_NAME: default
       - OS_AUTH_URL: http://controller:35357/v3
       - OS_IDENTITY_API_VERSION: '3'
+    - onfail_in:
+      - cmd: bootstrap
+      - cmd: project
+      - cmd: user
+      - cmd: role
+      - cmd: user_role
+      - cmd: service
+      - cmd: endpoint
 
 bootstrap:
   cmd.run:
@@ -21,8 +29,6 @@ bootstrap:
       - OS_AUTH_URL: http://controller:35357/v3
       - OS_IDENTITY_API_VERSION: '3'
     - name: keystone-manage bootstrap --bootstrap-password adminpass --bootstrap-admin-url http://controller:35357/v3/ --bootstrap-internal-url http://controller:35357/v3/ --bootstrap-public-url http://controller:5000/v3/ --bootstrap-region-id RegionOne
-    - onfail:
-      - cmd: check admin setup
 
 project:
   cmd.run:
@@ -37,8 +43,6 @@ project:
     - names:
       - openstack project create --domain default --description "Service Project" service
       - openstack project create --domain default --description "Demo Project" demo
-    - onfail:
-      - cmd: check admin setup
 
 user:
   cmd.run:
@@ -55,8 +59,6 @@ user:
       - openstack user create --domain default --password glancepass glance
       - openstack user create --domain default --password novapass nova
       - openstack user create --domain default --password neutronpass neutron
-    - onfail:
-      - cmd: check admin setup
 
 role:
   cmd.run:
@@ -70,8 +72,6 @@ role:
       - OS_IDENTITY_API_VERSION: '3'
     - names:
       - openstack role create user
-    - onfail:
-      - cmd: check admin setup
 
 user_role:
   cmd.run:
@@ -88,8 +88,6 @@ user_role:
       - openstack role add --project service --user glance admin
       - openstack role add --project service --user nova admin
       - openstack role add --project service --user neutron admin
-    - onfail:
-      - cmd: check admin setup
 
 service:
   cmd.run:
@@ -105,8 +103,6 @@ service:
       - openstack service create --name glance --description "OpenStack Image" image
       - openstack service create --name nova --description "OpenStack Compute" compute
       - openstack service create --name neutron --description "OpenStack Networking" network
-    - onfail:
-      - cmd: check admin setup
 
 endpoint:
   cmd.run:
@@ -128,8 +124,6 @@ endpoint:
       - openstack endpoint create --region RegionOne network public http://controller:9696
       - openstack endpoint create --region RegionOne network internal http://controller:9696
       - openstack endpoint create --region RegionOne network admin http://controller:9696
-    - onfail:
-      - cmd: check admin setup
 
 openrc files:
   file.managed:

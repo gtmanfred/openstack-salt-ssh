@@ -9,6 +9,7 @@ base:
     - memcached
     - keystone
     - glance
+    - novaapi
   'compute*':
     - chrony.other
   'block*':
