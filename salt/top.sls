@@ -6,6 +6,7 @@ base:
     - openstack.pkgs
     - mysql
     - rabbitmq
+    - memcached
   'compute*':
     - chrony.other
   'block*':
