@@ -7,6 +7,7 @@ base:
     - mysql
     - rabbitmq
     - memcached
+    - keystone
   'compute*':
     - chrony.other
   'block*':
