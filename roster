@@ -19,7 +19,7 @@ block01:
   priv: /root/.ssh/id_rsa
 
 block02:
-  host: 10.0.0.41
+  host: 10.0.0.42
   user: root
   priv: /root/.ssh/id_rsa
 
