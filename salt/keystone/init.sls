@@ -1,5 +1,4 @@
 include:
-  - .database
   - .pkgs
   - .configs
   - .services
