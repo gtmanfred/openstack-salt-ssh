@@ -5,6 +5,7 @@ base:
     - chrony.controller
     - openstack.pkgs
     - mysql
+    - rabbitmq
   'compute*':
     - chrony.other
   'block*':
