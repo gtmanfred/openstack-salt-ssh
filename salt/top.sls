@@ -8,6 +8,7 @@ base:
     - rabbitmq
     - memcached
     - keystone
+    - glance
   'compute*':
     - chrony.other
   'block*':

@@ -1,0 +1,2 @@
+openstack-glance:
+  pkg.latest
