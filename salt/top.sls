@@ -2,9 +2,9 @@ base:
   '*':
     - hosts
     - firewalld
+    - openstack.pkgs
   'controller':
     - chrony.controller
-    - openstack.pkgs
     - mysql
     - rabbitmq
     - memcached
