@@ -6,3 +6,7 @@ nova packages:
       - openstack-nova-console
       - openstack-nova-novncproxy
       - openstack-nova-scheduler
+      - openstack-neutron
+      - openstack-neutron-ml2
+      - openstack-neutron-linuxbridge
+      - ebtables

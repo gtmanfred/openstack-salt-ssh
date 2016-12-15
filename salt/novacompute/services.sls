@@ -4,5 +4,7 @@ libvirtd service:
 
 openstack-nova-compute service:
   service.running:
-    - name: openstack-nova-compute
+    - names:
+      - openstack-nova-compute
+      - neutron-linuxbridge-agent
     - onlyif: sleep 5
