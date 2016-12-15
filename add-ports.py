@@ -81,5 +81,5 @@ for name, ip_ in ports:
             break
         print port
     port = port['port']
-    print 'supernova brew-IAD boot --image %s --flavor general1-8 --key-name gtmanfred --nic port-id=%s %s' % (IMAGE, port['id'], port['name'])
+    print 'supernova brew-IAD boot --image %s --flavor general1-8 --key-name gtmanfred --nic port-id=%s --nic net-id=00000000-0000-0000-0000-000000000000 %s' % (IMAGE, port['id'], port['name'])
     time.sleep(10)
