@@ -89,6 +89,18 @@ grants:
         - user: nova
         - host: '10.0.0.%'
         - database: nova.*
+      - nova_localhost_api:
+        - user: nova
+        - host: localhost
+        - database: nova_api.*
+      - nova_me_api:
+        - user: nova
+        - host: '10.0.0.11'
+        - database: nova_api.*
+      - nova_all_api:
+        - user: nova
+        - host: '10.0.0.%'
+        - database: nova_api.*
       - neutron_localhost:
         - user: neutron
         - host: localhost
