@@ -13,6 +13,7 @@ base:
     - novaapi
   'compute*':
     - chrony.other
+    - novacompute
   'block*':
     - chrony.other
   'object*':
