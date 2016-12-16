@@ -20,6 +20,5 @@ s.headers['X-Auth-Token'] = token
 ports = s.get(endpoint + 'ports').json()['ports']
 for port in ports:
     network_id = port['network_id']
-    while 'overLimit' in s.delete(endpoint + 'ports/%s' % port['id']).json():
-        time.sleep(10)
-    s.delete(endpoint + 'networks/%s' % network_id)
+    s.delete(endpoint + 'ports/%s' % port['id'])
+s.delete(endpoint + 'networks/%s' % network_id)

@@ -7,8 +7,9 @@ import time
 
 
 endpoint = 'https://iad.networks.api.rackspacecloud.com/v2.0/'
-IMAGE='4319b4ff-f887-4c52-9464-34536d202143'
+IMAGE='dc1a3708-b4d9-44db-98ae-f768f6218f27'
 token = os.environ.get('TOKEN')
+pubnet='00000000-0000-0000-0000-000000000000'
 
 if not token:
     print 'Token not set'
@@ -81,5 +82,5 @@ for name, ip_ in ports:
             break
         print port
     port = port['port']
-    print 'supernova brew-IAD boot --image %s --flavor general1-8 --key-name gtmanfred --nic port-id=%s --nic net-id=00000000-0000-0000-0000-000000000000 %s' % (IMAGE, port['id'], port['name'])
+    print 'supernova brew-IAD boot --image %s --flavor general1-8 --key-name gtmanfred --nic port-id=%s --nic net-id=%s %s' % (IMAGE, port['id'], pubnet, port['name'])
     time.sleep(10)
