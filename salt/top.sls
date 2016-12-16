@@ -9,6 +9,7 @@ base:
     - mysql
     - rabbitmq
     - memcached
+    - network
     - keystone
     - glance
     - novaapi
