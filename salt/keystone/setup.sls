@@ -23,7 +23,7 @@ domain:
     - env:
       - OS_TOKEN: adminpass
       - OS_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: 3
+      - OS_IDENTITY_API_VERSION: '3'
     - names:
       - openstack domain create --description "Default Domain" default
 
@@ -32,7 +32,7 @@ project:
     - env:
       - OS_TOKEN: adminpass
       - OS_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: 3
+      - OS_IDENTITY_API_VERSION: '3'
     - names:
       - openstack project create --domain default --description "Admin Project" admin
       - openstack project create --domain default --description "Service Project" service
@@ -43,7 +43,7 @@ user:
     - env:
       - OS_TOKEN: adminpass
       - OS_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: 3
+      - OS_IDENTITY_API_VERSION: '3'
     - names:
       - openstack user create --domain default --password adminpass admin
       - openstack user create --domain default --password demopass demo
@@ -56,7 +56,7 @@ role:
     - env:
       - OS_TOKEN: adminpass
       - OS_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: 3
+      - OS_IDENTITY_API_VERSION: '3'
     - names:
       - openstack role create admin
       - openstack role create user
@@ -66,7 +66,7 @@ user_role:
     - env:
       - OS_TOKEN: adminpass
       - OS_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: 3
+      - OS_IDENTITY_API_VERSION: '3'
     - names:
       - openstack role add --project admin --user admin admin
       - openstack role add --project demo --user demo user
@@ -79,7 +79,7 @@ service:
     - env:
       - OS_TOKEN: adminpass
       - OS_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: 3
+      - OS_IDENTITY_API_VERSION: '3'
     - names:
       - openstack service create --name keystone --description "OpenStack Identity" identity
       - openstack service create --name glance --description "OpenStack Image" image
@@ -91,7 +91,7 @@ endpoint:
     - env:
       - OS_TOKEN: adminpass
       - OS_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: 3
+      - OS_IDENTITY_API_VERSION: '3'
     - names:
       - openstack endpoint create --region RegionOne identity public http://controller:5000/v3
       - openstack endpoint create --region RegionOne identity internal http://controller:5000/v3

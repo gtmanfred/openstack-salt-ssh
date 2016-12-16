@@ -17,45 +17,43 @@ setup keystone db:
   cmd.run:
     - name: keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 
-httpd_servername:
+keystone config:
   file.managed:
-    - name: /etc/httpd/conf.d/openstack.conf
-    - contents: |
-        ServerName controller
+    - names:
+      - /etc/httpd/conf.d/openstack.conf:
+        - contents: |
+            ServerName controller
+      - /etc/httpd/conf.d/wsgi-keystone.conf:
+        - contents: |
+            Listen 5000
+            Listen 35357
 
-httpd_wsgi:
-  file.symlink:
-    - name: /etc/httpd/conf.d/wsgi-keystone.conf
-    - contents: |
-        Listen 5000
-        Listen 35357
+            <VirtualHost *:5000>
+                WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
+                WSGIProcessGroup keystone-public
+                WSGIScriptAlias / /usr/bin/keystone-wsgi-public
+                WSGIApplicationGroup %{GLOBAL}
+                WSGIPassAuthorization On
+                ErrorLogFormat "%{cu}t %M"
+                ErrorLog /var/log/httpd/keystone-error.log
+                CustomLog /var/log/httpd/keystone-access.log combined
 
-        <VirtualHost *:5000>
-            WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
-            WSGIProcessGroup keystone-public
-            WSGIScriptAlias / /usr/bin/keystone-wsgi-public
-            WSGIApplicationGroup %{GLOBAL}
-            WSGIPassAuthorization On
-            ErrorLogFormat "%{cu}t %M"
-            ErrorLog /var/log/httpd/keystone-error.log
-            CustomLog /var/log/httpd/keystone-access.log combined
-        
-            <Directory /usr/bin>
-                Require all granted
-            </Directory>
-        </VirtualHost>
+                <Directory /usr/bin>
+                    Require all granted
+                </Directory>
+            </VirtualHost>
 
-        <VirtualHost *:35357>
-            WSGIDaemonProcess keystone-admin processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
-            WSGIProcessGroup keystone-admin
-            WSGIScriptAlias / /usr/bin/keystone-wsgi-admin
-            WSGIApplicationGroup %{GLOBAL}
-            WSGIPassAuthorization On
-            ErrorLogFormat "%{cu}t %M"
-            ErrorLog /var/log/httpd/keystone-error.log
-            CustomLog /var/log/httpd/keystone-access.log combined
+            <VirtualHost *:35357>
+                WSGIDaemonProcess keystone-admin processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
+                WSGIProcessGroup keystone-admin
+                WSGIScriptAlias / /usr/bin/keystone-wsgi-admin
+                WSGIApplicationGroup %{GLOBAL}
+                WSGIPassAuthorization On
+                ErrorLogFormat "%{cu}t %M"
+                ErrorLog /var/log/httpd/keystone-error.log
+                CustomLog /var/log/httpd/keystone-access.log combined
 
-            <Directory /usr/bin>
-                Require all granted
-            </Directory>
-        </VirtualHost>
+                <Directory /usr/bin>
+                    Require all granted
+                </Directory>
+            </VirtualHost>
