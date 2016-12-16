@@ -93,7 +93,7 @@ neutron configs:
             [oslo_concurrency]
             lock_path = /var/lib/neutron/tmp
 
-      - /etc/neutron/plugins/ml2/ml2_conf.in:
+      - /etc/neutron/plugins/ml2/ml2_conf.ini:
         - contents: |
             [ml2]
             type_drivers = flat,vlan,vxlan
