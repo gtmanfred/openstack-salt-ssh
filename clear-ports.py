@@ -20,5 +20,6 @@ s.headers['X-Auth-Token'] = token
 ports = s.get(endpoint + 'ports').json()['ports']
 for port in ports:
     network_id = port['network_id']
-    s.delete(endpoint + 'ports/%s' % port['id'])
+    while s.delete(endpoint + 'ports/%s' % port['id']).status_code == 413:
+        time.sleep(5)
 s.delete(endpoint + 'networks/%s' % network_id)
