@@ -129,3 +129,30 @@ openrc files:
             export OS_AUTH_URL=http://controller:35357/v3
             export OS_IDENTITY_API_VERSION=3
             export OS_IMAGE_API_VERSION=2
+      - /root/this:
+        - contents: |
+            . ~/admin-openrc
+            neutron net-create --shared --provider:physical_network provider \
+              --provider:network_type flat provider
+            neutron subnet-create --name provider \
+              --allocation-pool start=10.0.0.150,end=10.0.0.250 \
+              --dns-nameserver 8.8.8.8 --gateway 10.0.0.129 \
+              provider 10.0.0.128/25
+            neutron net-update provider --router:external
+            . ~/demo-openrc
+            neutron net-create selfservice
+            neutron subnet-create --name selfservice \
+              --dns-nameserver 8.8.4.4 --gateway 172.16.1.1 \
+              selfservice 172.16.1.0/24
+            neutron router-create router
+            neutron router-interface-add router selfservice
+            neutron router-gateway-set router provider
+      - /root/that:
+        - contents: |
+            . ~/demo-openrc
+            neutron router-gateway-clear router
+            neutron router-interface-delete router selfservice
+            neutron router-delete router
+            neutron net-delete selfservice
+            . ~/admin-openrc
+            neutron net-delete provider
