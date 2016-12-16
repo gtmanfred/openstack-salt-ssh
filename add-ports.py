@@ -7,7 +7,7 @@ import time
 
 
 endpoint = 'https://iad.networks.api.rackspacecloud.com/v2.0/'
-IMAGE='dc1a3708-b4d9-44db-98ae-f768f6218f27'
+IMAGE='4319b4ff-f887-4c52-9464-34536d202143'
 token = os.environ.get('TOKEN')
 pubnet='00000000-0000-0000-0000-000000000000'
 
