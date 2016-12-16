@@ -9,6 +9,6 @@ comment out mirrorlist:
     - regex: '^mirrorlist=.*$'
 
 uncomment baseurl:
-  file.comment:
+  file.uncomment:
     - name: /etc/yum.repos.d/CentOS-Base.repo
     - regex: 'baseurl=.*$'
