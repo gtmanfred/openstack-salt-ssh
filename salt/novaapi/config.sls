@@ -128,6 +128,7 @@ neutron configs:
         - contents: |
             [DEFAULT]
             interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
+            external_network_bridge =
 
       - /etc/neutron/dhcp_agent.ini:
         - contents: |
