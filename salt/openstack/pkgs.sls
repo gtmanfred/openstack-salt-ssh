@@ -1,4 +1,4 @@
-centos-release-openstack-newton:
+centos-release-openstack-mitaka:
   pkg.latest
 
 python-openstackclient:

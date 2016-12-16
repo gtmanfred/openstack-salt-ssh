@@ -10,7 +10,7 @@ check admin setup:
       - OS_AUTH_URL: http://controller:35357/v3
       - OS_IDENTITY_API_VERSION: '3'
     - onfail_in:
-      - cmd: bootstrap
+      - cmd: domain
       - cmd: project
       - cmd: user
       - cmd: role
@@ -18,43 +18,34 @@ check admin setup:
       - cmd: service
       - cmd: endpoint
 
-bootstrap:
+domain:
   cmd.run:
     - env:
-      - OS_USERNAME: admin
-      - OS_PASSWORD: adminpass
-      - OS_PROJECT_NAME: admin
-      - OS_USER_DOMAIN_NAME: default
-      - OS_PROJECT_DOMAIN_NAME: default
-      - OS_AUTH_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: '3'
-    - name: keystone-manage bootstrap --bootstrap-password adminpass --bootstrap-admin-url http://controller:35357/v3/ --bootstrap-internal-url http://controller:35357/v3/ --bootstrap-public-url http://controller:5000/v3/ --bootstrap-region-id RegionOne
+      - OS_TOKEN: adminpass
+      - OS_URL: http://controller:35357/v3
+      - OS_IDENTITY_API_VERSION: 3
+    - names:
+      - openstack domain create --description "Default Domain" default
 
 project:
   cmd.run:
     - env:
-      - OS_USERNAME: admin
-      - OS_PASSWORD: adminpass
-      - OS_PROJECT_NAME: admin
-      - OS_USER_DOMAIN_NAME: default
-      - OS_PROJECT_DOMAIN_NAME: default
-      - OS_AUTH_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: '3'
+      - OS_TOKEN: adminpass
+      - OS_URL: http://controller:35357/v3
+      - OS_IDENTITY_API_VERSION: 3
     - names:
+      - openstack project create --domain default --description "Admin Project" admin
       - openstack project create --domain default --description "Service Project" service
       - openstack project create --domain default --description "Demo Project" demo
 
 user:
   cmd.run:
     - env:
-      - OS_USERNAME: admin
-      - OS_PASSWORD: adminpass
-      - OS_PROJECT_NAME: admin
-      - OS_USER_DOMAIN_NAME: default
-      - OS_PROJECT_DOMAIN_NAME: default
-      - OS_AUTH_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: '3'
+      - OS_TOKEN: adminpass
+      - OS_URL: http://controller:35357/v3
+      - OS_IDENTITY_API_VERSION: 3
     - names:
+      - openstack user create --domain default --password adminpass admin
       - openstack user create --domain default --password demopass demo
       - openstack user create --domain default --password glancepass glance
       - openstack user create --domain default --password novapass nova
@@ -63,27 +54,21 @@ user:
 role:
   cmd.run:
     - env:
-      - OS_USERNAME: admin
-      - OS_PASSWORD: adminpass
-      - OS_PROJECT_NAME: admin
-      - OS_USER_DOMAIN_NAME: default
-      - OS_PROJECT_DOMAIN_NAME: default
-      - OS_AUTH_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: '3'
+      - OS_TOKEN: adminpass
+      - OS_URL: http://controller:35357/v3
+      - OS_IDENTITY_API_VERSION: 3
     - names:
+      - openstack role create admin
       - openstack role create user
 
 user_role:
   cmd.run:
     - env:
-      - OS_USERNAME: admin
-      - OS_PASSWORD: adminpass
-      - OS_PROJECT_NAME: admin
-      - OS_USER_DOMAIN_NAME: default
-      - OS_PROJECT_DOMAIN_NAME: default
-      - OS_AUTH_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: '3'
+      - OS_TOKEN: adminpass
+      - OS_URL: http://controller:35357/v3
+      - OS_IDENTITY_API_VERSION: 3
     - names:
+      - openstack role add --project admin --user admin admin
       - openstack role add --project demo --user demo user
       - openstack role add --project service --user glance admin
       - openstack role add --project service --user nova admin
@@ -92,14 +77,11 @@ user_role:
 service:
   cmd.run:
     - env:
-      - OS_USERNAME: admin
-      - OS_PASSWORD: adminpass
-      - OS_PROJECT_NAME: admin
-      - OS_USER_DOMAIN_NAME: default
-      - OS_PROJECT_DOMAIN_NAME: default
-      - OS_AUTH_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: '3'
+      - OS_TOKEN: adminpass
+      - OS_URL: http://controller:35357/v3
+      - OS_IDENTITY_API_VERSION: 3
     - names:
+      - openstack service create --name keystone --description "OpenStack Identity" identity
       - openstack service create --name glance --description "OpenStack Image" image
       - openstack service create --name nova --description "OpenStack Compute" compute
       - openstack service create --name neutron --description "OpenStack Networking" network
@@ -107,14 +89,13 @@ service:
 endpoint:
   cmd.run:
     - env:
-      - OS_USERNAME: admin
-      - OS_PASSWORD: adminpass
-      - OS_PROJECT_NAME: admin
-      - OS_USER_DOMAIN_NAME: default
-      - OS_PROJECT_DOMAIN_NAME: default
-      - OS_AUTH_URL: http://controller:35357/v3
-      - OS_IDENTITY_API_VERSION: '3'
+      - OS_TOKEN: adminpass
+      - OS_URL: http://controller:35357/v3
+      - OS_IDENTITY_API_VERSION: 3
     - names:
+      - openstack endpoint create --region RegionOne identity public http://controller:5000/v3
+      - openstack endpoint create --region RegionOne identity internal http://controller:5000/v3
+      - openstack endpoint create --region RegionOne identity admin http://controller:5000/v3
       - openstack endpoint create --region RegionOne image public http://controller:9292
       - openstack endpoint create --region RegionOne image internal http://controller:9292
       - openstack endpoint create --region RegionOne image admin http://controller:9292
