@@ -6,6 +6,7 @@ base:
     - openstack.pkgs
   'controller':
     - chrony.controller
+    - sysctl
     - mysql
     - rabbitmq
     - memcached
