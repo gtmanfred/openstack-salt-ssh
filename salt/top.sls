@@ -4,9 +4,9 @@ base:
     - hosts
     - firewalld
     - openstack.pkgs
+    - sysctl
   'controller':
     - chrony.controller
-    - sysctl
     - mysql
     - rabbitmq
     - memcached
