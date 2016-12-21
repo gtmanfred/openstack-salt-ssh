@@ -14,7 +14,7 @@
         CACHES = {
             'default': {
                 'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-                'LOCATION': 'controller:11211',
+                'LOCATION': 'localhost:11211',
             }
         }
         EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
