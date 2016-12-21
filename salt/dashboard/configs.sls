@@ -20,4 +20,4 @@
         }
         OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = "default"
         OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"
-        TIME_ZONE = "US/Chicago"
+        TIME_ZONE = "America/Chicago"
