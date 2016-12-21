@@ -14,6 +14,7 @@ base:
     - keystone
     - glance
     - novaapi
+    - dashboard
   'compute*':
     - chrony.other
     - novacompute
