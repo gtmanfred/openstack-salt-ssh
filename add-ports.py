@@ -72,6 +72,9 @@ def make_port(name, ip_):
 	}
     }
 
+print('export PUBNET=%s' % pubnet)
+print('export FILE="%s=%s"' % ('~/.ssh/saltstack', '/root/.ssh/id_rsa')
+
 for name, ip_ in ports:
     while True:
         port = s.post(endpoint + 'ports', json.dumps(make_port(name, ip_))).json()
@@ -82,5 +85,5 @@ for name, ip_ in ports:
             break
         print port
     port = port['port']
-    print 'supernova brew-IAD boot --image %s --flavor general1-8 --key-name gtmanfred --nic port-id=%s --nic net-id=%s %s' % (IMAGE, port['id'], pubnet, port['name'])
+    print 'supernova brew-IAD boot --file $FILE --image %s --flavor general1-8 --key-name gtmanfred --nic port-id=$PUBNET --nic net-id=%s %s' % (IMAGE, port['id'], port['name'])
     time.sleep(10)
