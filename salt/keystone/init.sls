@@ -3,4 +3,3 @@ include:
   - .configs
   - .services
   - .setup
-  - .config_domain
