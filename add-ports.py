@@ -1,3 +1,5 @@
+from __future__ import print_function
+from collections import namedtuple
 import json
 import os
 import pprint
@@ -7,12 +9,11 @@ import time
 
 
 endpoint = 'https://iad.networks.api.rackspacecloud.com/v2.0/'
-IMAGE='4319b4ff-f887-4c52-9464-34536d202143'
 token = os.environ.get('TOKEN')
-pubnet='00000000-0000-0000-0000-000000000000'
+pubnet = '00000000-0000-0000-0000-000000000000'
 
 if not token:
-    print 'Token not set'
+    print('Token not set')
     sys.exit(1)
 
 s = requests.Session()
@@ -44,27 +45,35 @@ if not subnet:
 
 subnet_id = subnet['id']
 
+onmetal = 'onmetal-general2-small'
+virtual = 'general1-8'
+
+om_image = '3f7a22c2-1b19-4d62-ace7-3ecea2e32134'
+v_image = '4319b4ff-f887-4c52-9464-34536d202143'
+
 ports = [
-    ('salt', '10.0.0.2'),
-    ('controller', '10.0.0.11'),
-    ('compute01', '10.0.0.31'),
-    ('compute02', '10.0.0.32'),
-    ('block01', '10.0.0.41'),
-    ('block02', '10.0.0.42'),
-    ('object01', '10.0.0.51'),
-    ('object02', '10.0.0.52'),
-    ('object03', '10.0.0.53')
+    ('salt', '10.0.0.2', virtual, v_image),
+    ('controller', '10.0.0.11', virtual, v_image),
+    ('compute01', '10.0.0.31', onmetal, om_image),
+    ('compute02', '10.0.0.32', onmetal, om_image),
+    ('block01', '10.0.0.41', virtual, v_image),
+    ('block02', '10.0.0.42', virtual, v_image),
+    ('object01', '10.0.0.51', virtual, v_image),
+    ('object02', '10.0.0.52', virtual, v_image),
+    ('object03', '10.0.0.53', virtual, v_image)
 ]
 
-def make_port(name, ip_):
+VM = namedtuple('VM', 'name, ip, flavor, image')
+
+def make_port(vm_):
     return {
 	"port": {
 	    "admin_state_up": True,
 	    "device_id": "",
-	    "name": name,
+	    "name": vm_.name,
 	    "fixed_ips": [
 		{
-		    "ip_address": ip_,
+		    "ip_address": vm_.ip,
 		    "subnet_id": subnet_id,
 		}
 	    ],
@@ -73,17 +82,16 @@ def make_port(name, ip_):
     }
 
 print('export PUBNET=%s' % pubnet)
-print('export FILE="%s=%s"' % ('~/.ssh/saltstack', '/root/.ssh/id_rsa')
 
-for name, ip_ in ports:
+for vm in map(VM._make, ports):
     while True:
-        port = s.post(endpoint + 'ports', json.dumps(make_port(name, ip_))).json()
+        port = s.post(endpoint + 'ports', json.dumps(make_port(vm))).json()
         if 'overLimit' in port:
             time.sleep(10)
             continue
         if 'port' in port:
             break
-        print port
+        print(port)
     port = port['port']
-    print 'supernova brew-IAD boot --file $FILE --image %s --flavor general1-8 --key-name gtmanfred --nic port-id=$PUBNET --nic net-id=%s %s' % (IMAGE, port['id'], port['name'])
+    print('supernova brew-IAD boot --image %s --flavor %s --key-name gtmanfred --nic net-id=$PUBNET --nic port-id=%s %s' % (vm.image, vm.flavor, port['id'], vm.name))
     time.sleep(10)
