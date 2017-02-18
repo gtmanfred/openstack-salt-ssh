@@ -49,13 +49,15 @@ onmetal = 'onmetal-general2-small'
 virtual = 'general1-8'
 
 om_image = '3f7a22c2-1b19-4d62-ace7-3ecea2e32134'
-v_image = '4319b4ff-f887-4c52-9464-34536d202143'
+v_image = 'f2db6fd7-1e40-41f1-9ac0-ad8d1dfd7651'
 
 ports = [
     ('salt', '10.0.0.2', virtual, v_image),
     ('controller', '10.0.0.11', virtual, v_image),
-    ('compute01', '10.0.0.31', onmetal, om_image),
-    ('compute02', '10.0.0.32', onmetal, om_image),
+    #('compute01', '10.0.0.31', onmetal, om_image),
+    #('compute02', '10.0.0.32', onmetal, om_image),
+    ('compute01', '10.0.0.31', virtual, v_image),
+    ('compute02', '10.0.0.32', virtual, v_image),
     ('block01', '10.0.0.41', virtual, v_image),
     ('block02', '10.0.0.42', virtual, v_image),
     ('object01', '10.0.0.51', virtual, v_image),

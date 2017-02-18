@@ -1,6 +1,5 @@
 base:
   '*':
-    - repos
     - hosts
     - firewalld
     - openstack.pkgs
