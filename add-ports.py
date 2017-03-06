@@ -49,7 +49,7 @@ onmetal = 'onmetal-general2-small'
 virtual = 'general1-8'
 
 om_image = '3f7a22c2-1b19-4d62-ace7-3ecea2e32134'
-v_image = 'f2db6fd7-1e40-41f1-9ac0-ad8d1dfd7651'
+v_image = '135dede8-e7fc-43d4-b8c0-d718c56c728a'
 
 ports = [
     ('salt', '10.0.0.2', virtual, v_image),
