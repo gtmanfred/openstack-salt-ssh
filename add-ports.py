@@ -54,7 +54,7 @@ v_image = 'abe0d447-42ea-41ed-aadf-03828639570d'
 
 ports = [
     ('salt', '10.0.0.2', virtual, salt_image),
-    ('controller', '10.0.0.11', virtual, v_image),
+    ('controller', '10.0.0.11', virtual, salt_image),
     ('compute01', '10.0.0.31', virtual, v_image),
     ('compute02', '10.0.0.32', virtual, v_image),
 ]
